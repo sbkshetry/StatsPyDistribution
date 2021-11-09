@@ -1,3 +1,12 @@
 from setuptools import setup, find_packages
 
-setup(name="StatsPyDistribution", version='0.0.1', description="Statistics probability distribution", author='Shankar kshetry', author_email='sbkshetry@gmail.com', packages=find_packages(exclude=['contrib', 'docs', 'tests', '*.tests', '*.tests.*', 'tests.*']))
+setup(
+    name="StatsPyDistribution",
+    version='0.0.2',
+    description="Statistics probability distribution",
+    author='Shankar kshetry',
+    author_email='sbkshetry@gmail.com',
+    url="https://github.com/sbkshetry/StatsPyDistribution",
+    packages=find_packages(exclude=['contrib', 'docs', 'tests', '*.tests', '*.tests.*', 'tests.*']),
+    classifiers=["Programming Language :: Python :: 3", "License :: OSI Approved :: Apache Software License", "Operating System :: OS Independent"]
+)
