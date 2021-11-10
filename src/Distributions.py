@@ -1,9 +1,14 @@
+from matplotlib import pyplot as plt
+
+
 class Distributions:
 
-    def __init__(self, x, y, m, v, mo, me, sk, kr, mgf):
+    _fx_Name = "\u0192(x)="
+
+    def __init__(self, x, y, m, v, mo, me, sk, kr, cdf, mgf):
         self._x = x
         self._y = y
-        self._cdf = []
+        self._cdf = cdf
         self._mgf = mgf
         self._mn = m
         self._var = v
@@ -15,7 +20,7 @@ class Distributions:
     def name(self):
         raise NotImplementedError
 
-    def get_data(self):
+    def data(self):
         return {'x': self._x, 'y': self._y}
 
     def frequency_density_formula(self):
@@ -40,7 +45,7 @@ class Distributions:
 
     def support(self):
         """
-        it is x axis value on which probability mass function is being genereated
+        it is x axis value on which probability mass function is being generated
         :rtype: list of object
         """
         return self._x
@@ -76,7 +81,33 @@ class Distributions:
         return self._krt
 
     def movement_generating_function_value(self):
+        if len(self._mgf) == 0:
+            raise Exception("Unable to generate MGF values due parameters out of range")
         return self._mgf
 
-    def plot(self):
+    def plot(self, y=None):
+        if y is None:
+            y = self._y
+        plt.scatter(self._x, y)
+        plt.plot(self._x, y)
+        plt.xlabel('x - axis')
+        plt.ylabel('y - axis')
+        plt.title(self.__str__())
+        plt.show()
+
+    def distribution_family(self):
+        raise NotImplementedError
+
+    def summary(self):
+        """
+        :return: mean, variance, median, mode, kurtosis, skewness, size of sample , sample data, probability of x
+        random number
+        :rtype: tuple
+        """
+        return self._mn, self._var, self._med, self._mod, self._krt, self._skw, len(self._x), self._x, self._y
+
+    def _fx_(self, x):
+        raise NotImplementedError
+
+    def _mg_function_(self, x):
         raise NotImplementedError
