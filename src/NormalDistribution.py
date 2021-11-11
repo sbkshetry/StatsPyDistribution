@@ -20,6 +20,9 @@ class NormalDistribution(Distributions):
     def parameters(self):
         return ["-∞ < x < ∞", "-∞ < μ < ∞", "0 < σ < ∞"]
 
+    def _cfx_(self, x):
+        return (1+math.erf((x - self.__mn)/(self.__var * math.sqrt(2))))/2
+
     def __init__(self, mean, var, size=None):
         """
         :param mean:
@@ -48,6 +51,7 @@ class NormalDistribution(Distributions):
         self.__size = size
         self.__x = [float(i / 10) for i in range(10 * (0 - int(size / 2)), 10 * (1 + int(size / 2)))]
         self.__y = [self._fx_(i) for i in self.__x]
+        self.__cdf = [self._cfx_(i) for i in self.__x]
         self.__mgf = [self._mg_function_(i) for i in self.__x]
         self.__skw = 0
         self.__krt = 0
@@ -55,7 +59,7 @@ class NormalDistribution(Distributions):
         self.__med = mean
 
         Distributions.__init__(self, x=self.__x, y=self.__y, m=self.__mn, v=self.__var, mo=self.__mod, me=self.__med,
-                               sk=self.__skw, kr=self.__krt, cdf=[], mgf=self.__mgf)
+                               sk=self.__skw, kr=self.__krt, cdf=self.__cdf, mgf=self.__mgf)
 
     def __str__(self):
         d = {'mean': self.__mn, 'var': self.__var, 'size': self.__size}

@@ -6,6 +6,16 @@ import math
 class TriangularDistribution(Distributions):
     _c = 0
 
+    def probability_random_number(self, x):
+        if isinstance(x, str):
+            raise Exception("x must be non string type")
+        if not self.__a <= x <= self.__b:
+            raise Exception("x({}) must be between a({}) and b({}).".format(x, self.__a, self.__b))
+        if self.__b - self.__a == 1:
+            return self._fx_(x)/2
+        else:
+            return self._fx_(x)
+
     def __init__(self, a, b):
         if isinstance(a, str):
             raise Exception("a must be non string type")
@@ -37,7 +47,7 @@ class TriangularDistribution(Distributions):
         self.__mgf = []
         try:
             self.__mgf = [self._mg_function_(i) for i in self.__x]
-        except:
+        except OverflowError:
             self.__mgf = []
         Distributions.__init__(self, x=self.__x, y=self.__y, m=self.__mn, v=self.__var, mo=self.__mod, me=self.__med,
                                sk=self.__skw, kr=self.__krt, cdf=self.__cdf, mgf=self.__mgf)

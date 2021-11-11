@@ -111,3 +111,11 @@ class Distributions:
 
     def _mg_function_(self, x):
         raise NotImplementedError
+
+    def probability_random_number(self, x):
+        if isinstance(x, str):
+            raise Exception("x must be non string type")
+        return self._cfx_(x + 1) - self._cfx_(x)
+
+    def _cfx_(self, x):
+        raise NotImplementedError
